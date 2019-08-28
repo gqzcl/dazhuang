@@ -1,0 +1,136 @@
+{% extends 'layout.html' %}
+
+{% load staticfiles %}
+
+{% block title %} Order Info {% endblock %}
+
+{% block body %}
+
+    {% for order in order %}
+        <section>
+            <div class="section-header">
+                <ol class="breadcrumb">
+                    <li class="active">收据</li>
+                </ol>
+            </div>
+            <div class="section-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-printable style-default-light">
+                            <div class="card-head">
+                                <div class="tools">
+                                    <div class="btn-group">
+                                        <a class="btn btn-floating-action btn-primary" href="javascript:void(0);"
+                                           onclick="window.print();"><i class="md md-print"></i></a>
+                                    </div>
+                                </div>
+                            </div><!--end .card-head -->
+                            <div class="card-body style-default-bright" id="print">
+
+                                <!-- BEGIN INVOICE HEADER -->
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <h1 class="text-light" style="margin-top: 0; color: #f70b0b">大壮 <strong
+                                                class="text-accent-dark" style="color: #2196f3">书店</strong></h1>
+                                        <p>南京信息工程大学<br>No.219, Ningliu Road, Nanjing, Jiangsu, China</p>
+                                    </div>
+                                    <div class="col-xs-4 text-right">
+                                        <h1 class="text-light text-default-light">收据</h1>
+                                    </div>
+                                </div><!--end .row -->
+                                <!-- END INVOICE HEADER -->
+
+                                <br/>
+
+                                <!-- BEGIN INVOICE DESCRIPTION -->
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <h4 class="text-light">Prepared for</h4>
+                                        <address>
+                                            <strong>{{ order.customer }}</strong><br>
+                                            <b>订单地址: </b>{{ order.shipping_address }}<br>
+                                            <b>电话: </b> {{ order.customer.phone }}<br>
+                                            <b>邮箱: </b> {{ order.customer.email }}
+                                        </address>
+                                    </div><!--end .col -->
+                                    <div class="col-xs-4">
+                                        <div class="well">
+                                            <div class="clearfix">
+                                                <div class="pull-left"> 收据编号 :</div>
+                                                <div class="pull-right"> {{ order.id }} </div>
+                                            </div>
+                                            <div class="clearfix">
+                                                <div class="pull-left"> 日期 :</div>
+                                                <div class="pull-right">{{ order.date }}</div>
+                                            </div>
+                                        </div>
+                                    </div><!--end .col -->
+                                </div><!--end .row -->
+                                <!-- END INVOICE DESCRIPTION -->
+
+                                <br/>
+
+                                <!-- BEGIN INVOICE PRODUCTS -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th style="width:50px" class="text-center">ID</th>
+                                                <th style="width:100px" class="text-left">ISBN</th>
+                                                <th class="text-left">书名</th>
+                                                <th class="text-left">作者</th>
+                                                <th class="text-left">出版社</th>
+                                                <th class="text-right">价格</th>
+                                                <th class="text-right" style="width: 90px">数量</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class="text-center">{{ order.book.id }}</td>
+                                                <td>{{ order.book.isbn }}</td>
+                                                <td>{{ order.book.book_name }}</td>
+                                                <td>{{ order.book.author }}</td>
+                                                <td>{{ order.book.publisher }}</td>
+                                                <td class="text-right">{{ order.book.price }}</td>
+                                                <td class="text-right">{{ order.quantity }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5" rowspan="4">
+                                                    <h3 class="text-light opacity-50">Invoice notes</h3>
+                                                    <p>
+                                                        <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                                            sed do eiusmod tempor incididunt ut labore et dolore magna
+                                                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                        </small>
+                                                    </p>
+                                                </td>
+                                                <td class="text-right"><strong>小计</strong></td>
+                                                <td class="text-right">$ {{ order.get_original_total_price | floatformat:2 }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right hidden-border"><strong>折扣</strong></td>
+                                                <td class="text-right hidden-border">-{{ order.get_discount_percent | floatformat:0}}%</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right"><strong
+                                                        class="text-lg text-accent">总计</strong></td>
+                                                <td class="text-right"><strong
+                                                        class="text-lg text-accent">$ {{ order.total_price | floatformat:2 }}</strong></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!--end .col -->
+                                </div><!--end .row -->
+                                <!-- END INVOICE PRODUCTS -->
+
+                            </div><!--end .card-body -->
+                        </div><!--end .card -->
+                    </div><!--end .col -->
+                </div><!--end .row -->
+            </div><!--end .section-body -->
+        </section>
+    {% endfor %}
+
+{% endblock %}

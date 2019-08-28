@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block title %} All Orders {% endblock %}
+
+{% block body %}
+    <section>
+        <div class="section-body">
+            <!-- BEGIN DATATABLE 2 -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-head style-primary">
+                            <header>所有订单数据</header>
+                            <div class="tools">
+                                <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
+                                <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="datatable2" class="table order-column hover">
+                                    <thead>
+                                    <tr>
+                                        <th>订单号</th>
+                                        <th>上帝名字</th>
+                                        <th>书名</th>
+                                        <th>总价格</th>
+                                        <th>日期</th>
+                                        <th width="150px">管理</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for order in orders %}
+                                        <tr class="gradeX">
+                                            <td>{{ order.id }}</td>
+                                            <td>{{ order.customer }}</td>
+                                            <td>{{ order.book }}</td>
+                                            <td>{{ order.total_price | floatformat:2 }}</td>
+                                            <td>{{ order.date }}</td>
+                                            <td>
+                                                <a href="{% url 'edit-order' order.id %}"
+                                                   class="btn ink-reaction btn-floating-action btn-warning"><i
+                                                        class="fa fa-edit"></i> </a>
+                                                <a href="{% url 'delete-order' order.id %}"
+                                                   class="btn ink-reaction btn-floating-action btn-danger"
+                                                   onclick="return confirm('确认删除?')"><i
+                                                        class="fa fa-trash"></i> </a>
+                                                <a href="{% url 'show-order' order.id %}"
+                                                   class="btn ink-reaction btn-floating-action btn-primary"><i
+                                                        class="fa fa-info"></i> </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div><!--end .table-responsive -->
+                            <div class="card-actionbar-row">
+                                <a href="{% url 'order-by-day' %}" class="btn btn-flat btn-primary ink-reaction">按天</a>
+                                <a href="{% url 'order-by-month' %}" class="btn btn-flat btn-primary ink-reaction">按月</a>
+                                <a href="{% url 'order-by-year' %}" class="btn btn-flat btn-primary ink-reaction">按年</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!--end .col -->
+            </div><!--end .row -->
+            <!-- END DATATABLE 2 -->
+
+        </div><!--end .section-body -->
+    </section>
+{% endblock %}
